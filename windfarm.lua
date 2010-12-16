@@ -3,11 +3,29 @@ require("Scene")
 vrjLua.appendToModelSearchPath("/home/users/rpavlik/src/windfarm/")
 vrjLua.appendToModelSearchPath("/home/rpavlik/Downloads/")
 
-farm = Transform{
-    children = {
-        Model( "FarmField.ive")
-    }
+navtransform:addChild(Lighting{
+		ambient = 1.0,
+		diffuse = 0.8,
+		specular = 0.3
+	}
+)
+
+navtransform:addChild(Lighting{
+		ambient = 1.0,
+		diffuse = 0.1,
+		specular = 0.1
+	}
+)
+
+farm = AmbientIntensity{
+	intensity = 0.8,
+	Transform{
+	    children = {
+	        Model( "FarmField.ive")
+	    }
+	}
 }
+
 navtransform:addChild(farm)
 
 
