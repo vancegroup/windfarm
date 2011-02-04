@@ -1,16 +1,18 @@
-require("Scene")
+require("Actions")
 
 vrjLua.appendToModelSearchPath("/home/users/rpavlik/src/windfarm/")
+vrjLua.appendToModelSearchPath("x:/users/rpavlik/src/windfarm/")
 vrjLua.appendToModelSearchPath("/home/rpavlik/Downloads/")
 
-navtransform:addChild(Lighting{
+
+RelativeTo.Room:addChild(Lighting{
 		ambient = 1.0,
 		diffuse = 0.8,
 		specular = 0.3
 	}
 )
 
-navtransform:addChild(Lighting{
+RelativeTo.Room:addChild(Lighting{
 		ambient = 1.0,
 		diffuse = 0.1,
 		specular = 0.1
@@ -26,117 +28,81 @@ farm = AmbientIntensity{
 	}
 }
 
-navtransform:addChild(farm)
+RelativeTo.World:addChild(farm)
 
 
 
 blades = Transform{
 	position = {0.0, 52.5, 2.5},
-	children = {
-		Transform{
-			orientation = AngleAxis(Degrees(-90), Axis{1.0, 0.0, 0.0}),
-			scale = 0.05,
-			children = {
-				Model( "blades.ive")
-			}
-		}
+	Transform{
+		orientation = AngleAxis(Degrees(-90), Axis{1.0, 0.0, 0.0}),
+		scale = 0.05,
+		Model( "blades.ive")
 	}
 }
 
-function setAction(node, action)
-	local lastClock = os.clock()
-	local co = coroutine.create(action)
-	coroutine.resume(co, node, 0)
-	local c = osgLua.NodeCallback(
-		function(n, nodeVisitor)
-			local newClock = os.clock()
-			local elapsed = newClock - lastClock
-			lastClock = newClock
-			if coroutine.status(co) == 'dead' then
-				node:removeUpdateCallback(c)
-			else
-				coroutine.resume(co, osgnav.appProxy:getTimeDelta())
-			end
-			lastTime = newTime
-			--c:traverse(n, nodeVisitor)
-		end)
-	node:addUpdateCallback(c)
-end
 
-function bladeAction(node, elapsed)
+function bladeAction(dt)
 	local angle = 0
 	local q = osg.Quat()
 	while true do
-		angle = angle + 25 * elapsed
+		angle = angle + 25 * dt
 		q:makeRotate(Degrees(angle), Axis{0, 0, 1})
-		node:setAttitude(q)
-		elapsed = coroutine.yield()
+		blades:setAttitude(q)
+		dt = Actions.waitForRedraw()
 	end
 end
 
-setAction(blades, bladeAction)
+Actions.addFrameAction(bladeAction)
 
 base = Transform{
 	orientation = AngleAxis(Degrees(-90), Axis{1.0, 0.0, 0.0}),
     scale = 0.05,
-	children = {
-        Model( "turbineb.ive")
-	}
+	Model( "turbineb.ive")
 }
 
-	
+
 turbine = Transform{
-    position = {0,-17,0},   
-    children = {
-		base,
-		blades
-    }
+    position = {0,-17,0},
+	base,
+	blades
 }
 
-
-
-
-navtransform:addChild(Transform{
-    position = {30, 0, 160},
-    children = {turbine}
-    }
-)
-navtransform:addChild(Transform{
-    position = {50, 0, 140},
-    children = {turbine}
-    }
-)
-
-navtransform:addChild(Transform{
-    position = {70, 0, 120},
-    children = {turbine}
-    }
-)
-navtransform:addChild(Transform{
-    position = {90, 0, 100},
-    children = {turbine}
-    }
-)
-
-navtransform:addChild(Transform{
-    position = {110, 0, 80},
-    children = {turbine}
-    }
-)
-navtransform:addChild(Transform{
-    position = {130, 0, 60},
-    children = {turbine}
-    }
-)
-navtransform:addChild(Transform{
-    position = {150, 0, 40},
-    children = {turbine}
-    }
-)
-navtransform:addChild(Transform{
-    position = {170, 0, 20},
-    children = {turbine}
-    }
+RelativeTo.World:addChild(
+	Group{
+		Transform{
+			position = {30, 0, 160},
+			turbine
+		},
+		Transform{
+			position = {50, 0, 140},
+			turbine
+		},
+		Transform{
+			position = {70, 0, 120},
+			turbine
+		},
+		Transform{
+			position = {90, 0, 100},
+			turbine
+		},
+		Transform{
+			position = {110, 0, 80},
+			turbine
+		},
+		Transform{
+			position = {130, 0, 60},
+			turbine
+		},
+		Transform{
+			position = {150, 0, 40},
+			turbine
+		},
+		Transform{
+			position = {170, 0, 20},
+			turbine
+		}
+	}
 )
 
 
