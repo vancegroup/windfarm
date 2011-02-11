@@ -29,10 +29,8 @@ RelativeTo.Room:addChild(
 
 farm = --AmbientIntensity{
 	--intensity = 0.8,
-	Transform{
-	    children = {
+	Group{
 	        Model( "FarmField.ive")
-	    }
 	}
 --}
 
