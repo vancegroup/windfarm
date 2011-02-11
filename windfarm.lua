@@ -5,28 +5,36 @@ vrjLua.appendToModelSearchPath("x:/users/rpavlik/src/windfarm/")
 vrjLua.appendToModelSearchPath("/home/rpavlik/Downloads/")
 
 
-RelativeTo.Room:addChild(Lighting{
+RelativeTo.Room:addChild(
+	Lighting{
+		number = 0,
 		ambient = 1.0,
-		diffuse = 0.8,
-		specular = 0.3
+		diffuse = 0.7,
+		specular = 0.5,
+		position = {0, 3, 2},
+		positional = false
+	}
+)
+RelativeTo.Room:addChild(
+	Lighting{
+		number = 1,
+		ambient = 1.0,
+		diffuse = 0.7,
+		specular = 0.5,
+		position = {0, 6, 2},
+		positional = true
 	}
 )
 
-RelativeTo.Room:addChild(Lighting{
-		ambient = 1.0,
-		diffuse = 0.1,
-		specular = 0.1
-	}
-)
 
-farm = AmbientIntensity{
-	intensity = 0.8,
+farm = --AmbientIntensity{
+	--intensity = 0.8,
 	Transform{
 	    children = {
 	        Model( "FarmField.ive")
 	    }
 	}
-}
+--}
 
 RelativeTo.World:addChild(farm)
 
