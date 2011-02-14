@@ -1,4 +1,5 @@
 require("Actions")
+require("DebugAxes")
 
 vrjLua.appendToModelSearchPath("/home/users/rpavlik/src/windfarm/")
 vrjLua.appendToModelSearchPath("x:/users/rpavlik/src/windfarm/")
@@ -30,7 +31,8 @@ RelativeTo.Room:addChild(
 farm = --AmbientIntensity{
 	--intensity = 0.8,
 	Group{
-	        Model( "FarmField.ive")
+		Model("FarmField.ive"),
+		DebugAxes.node
 	}
 --}
 
@@ -43,8 +45,10 @@ blades = Transform{
 	Transform{
 		orientation = AngleAxis(Degrees(-90), Axis{1.0, 0.0, 0.0}),
 		scale = 0.05,
-		Model( "blades.ive")
-	}
+		Model("blades.ive"),
+		DebugAxes.node
+	},
+	DebugAxes.node
 }
 
 
@@ -64,14 +68,15 @@ Actions.addFrameAction(bladeAction)
 base = Transform{
 	orientation = AngleAxis(Degrees(-90), Axis{1.0, 0.0, 0.0}),
     scale = 0.05,
-	Model( "turbineb.ive")
+	Model("turbineb.ive")
 }
 
 
 turbine = Transform{
     position = {0,-17,0},
 	base,
-	blades
+	blades,
+	DebugAxes.node
 }
 
 RelativeTo.World:addChild(
@@ -107,8 +112,12 @@ RelativeTo.World:addChild(
 		Transform{
 			position = {170, 0, 20},
 			turbine
-		}
+		},
+		DebugAxes.node
 	}
 )
 
+print("Run DebugAxes.show() to show coordinate axes") 
+--DebugAxes.show()
+DebugAxes.hide()
 
