@@ -29,13 +29,10 @@ RelativeTo.Room:addChild(
 )
 
 
-farm = --AmbientIntensity{
-	--intensity = 0.8,
-	Group{
-		Model("FarmField.ive"),
-		DebugAxes.node
-	}
---}
+farm = Group{
+	Model("FarmField.ive"),
+	DebugAxes.node
+}
 
 RelativeTo.World:addChild(farm)
 
