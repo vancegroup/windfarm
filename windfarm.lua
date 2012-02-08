@@ -65,13 +65,13 @@ Actions.addFrameAction(bladeAction)
 
 base = Transform{
 	orientation = AngleAxis(Degrees(-90), Axis{1.0, 0.0, 0.0}),
-    scale = 0.05,
+	scale = 0.05,
 	Model("turbineb.ive")
 }
 
 
 turbine = Transform{
-    position = {0,-17,0},
+	position = {0, -17, 0},
 	base,
 	blades,
 	DebugAxes.node
@@ -115,7 +115,7 @@ RelativeTo.World:addChild(
 	}
 )
 
-print("Run DebugAxes.show() to show coordinate axes") 
+print("Run DebugAxes.show() to show coordinate axes")
 --DebugAxes.show()
 DebugAxes.hide()
 
