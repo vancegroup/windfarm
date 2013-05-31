@@ -48,18 +48,20 @@ blades = Transform{
 }
 
 
-function bladeAction(dt)
-	local angle = 0
-	local q = osg.Quat()
-	while true do
-		angle = angle + 25 * dt
-		q:makeRotate(Degrees(angle), Axis{0, 0, 1})
-		blades:setAttitude(q)
-		dt = Actions.waitForRedraw()
-	end
-end
 
-Actions.addFrameAction(bladeAction)
+
+Actions.addFrameAction(
+	function(dt)
+		local angle = 0
+		local q = osg.Quat()
+		while true do
+			angle = angle + 25 * dt
+			q:makeRotate(Degrees(angle), Axis{0, 0, 1})
+			blades:setAttitude(q)
+			dt = Actions.waitForRedraw()
+		end
+	end
+)
 
 base = Transform{
 	orientation = AngleAxis(Degrees(-90), Axis{1.0, 0.0, 0.0}),
