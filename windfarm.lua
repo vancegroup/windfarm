@@ -2,10 +2,8 @@ require("Actions")
 require("DebugAxes")
 
 -- Look for models in the same directory as this file.
-require("getScriptFilename")
-fn = getScriptFilename()
-assert(fn, "Have to load this from file, not copy and paste, or we can't find our models!")
-vrjLua.appendToModelSearchPath(fn)
+require "AddAppDirectory"
+AddAppDirectory()
 
 RelativeTo.Room:addChild(
 	Lighting{
