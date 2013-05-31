@@ -48,14 +48,14 @@ blades = Transform{
 }
 
 
-
+anglesPerSecond = 25
 
 Actions.addFrameAction(
 	function(dt)
 		local angle = 0
 		local q = osg.Quat()
 		while true do
-			angle = angle + 25 * dt
+			angle = angle + anglesPerSecond * dt
 			q:makeRotate(Degrees(angle), Axis{0, 0, 1})
 			blades:setAttitude(q)
 			dt = Actions.waitForRedraw()
